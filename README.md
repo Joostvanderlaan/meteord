@@ -12,13 +12,12 @@ There are two main ways you can use Docker with Meteor apps. They are:
 
 With this method, your app will be converted into a Docker image. Then you can simply run that image.  
 
-For that, you can use `meteorhacks/meteord` as your base image. Magically, that's only you've to do. Here's how to do it.
+For that, you can use `meteorhacks/meteord:onbuild` as your base image. Magically, that's only you've to do. Here's how to do it.
 
 Add following `Dockerfile` into the root of your app:
 
 ~~~shell
-FROM meteorhacks/meteord
-MAINTAINER Your Name
+FROM meteorhacks/meteord:onbuild
 ~~~
 
 Then you can build the docker image with:
@@ -37,8 +36,13 @@ docker run -d \
     -p 8080:80 \
     yourname/app 
 ~~~
-
 Then you can access your app from the port 8080 of the host system.
+
+#### Stop downloading Meteor each and every time (mostly in development)
+
+So, with the above method, MeteorD will download and install Meteor each and every time. That's bad specially in development. So, we've a solution for that. Simply use `meteorhacks/meteord:devbuild` as your base image.
+
+> WARNING: Don't use `meteorhacks/meteord:devbuild` for your final build. If you used it, your image will carry the Meteor distribution as well. As a result of that, you'll end up with an image with ~700 MB.
 
 ### 2. Running a Meteor bundle with Docker
 
@@ -53,7 +57,7 @@ docker run -d \
     -e MONGO_OPLOG_URL=mongodb://oplog_url \
     -v /mybundle_dir:/bundle \
     -p 8080:80 \
-    meteorhacks/meteord
+    meteorhacks/meteord:base
 ~~~
 
 With this method, MeteorD looks for the tarball version of the meteor bundle. So, you should build the meteor bundle for `os.linux.x86_64` and put it inside the `/bundle` volume. This is how you can build a meteor bundle.
@@ -73,11 +77,11 @@ docker run -d \
     -e MONGO_OPLOG_URL=mongodb://oplog_url \
     -e BUNDLE_URL=http://mybundle_url_at_s3.tar.gz \
     -p 8080:80 \
-    meteorhacks/meteord
+    meteorhacks/meteord:base
 ~~~
 
 
-### Rebuilding Binary Modules
+#### Rebuilding Binary Modules
 
 Sometimes, you need to rebuild binary npm modules. If so, expose `REBULD_NPM_MODULES` environment variable. It will take couple of seconds to complete the rebuilding process.
 
@@ -89,5 +93,13 @@ docker run -d \
     -e BUNDLE_URL=http://mybundle_url_at_s3.tar.gz \
     -e REBULD_NPM_MODULES=1 \
     -p 8080:80 \
-    meteorhacks/meteord
+    meteorhacks/meteord:binbuild
 ~~~
+
+## Known Issues
+
+#### Spiderable Not Wokring (But, have a fix)
+
+There are some issues when running spiderable inside a Docker container. For that, check this issue: https://github.com/meteor/meteor/issues/2429
+
+Fortunately, there is a fix. Simply use [`ongoworks:spiderable`](https://github.com/ongoworks/spiderable) instead the official package.
