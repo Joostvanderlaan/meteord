@@ -1,5 +1,8 @@
 #### Changes by Joost
-- add Vulcanize=True env to onbuild image for building with Vulcanize
+- add VULCANIZE=True env to meteor build script for building Meteor with Vulcanize
+
+docker build -t joostlaan/meteord:base ./base
+docker build -t joostlaan/meteord:onbuild ./onbuild 
 
 
 
