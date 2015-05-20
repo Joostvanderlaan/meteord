@@ -1,10 +1,13 @@
 #### Changes by Joost
-- add VULCANIZE=True env to meteor build script for building Meteor with Vulcanize
+- add VULCANIZE=True env to meteor build of the base image script for building Meteor with Vulcanize
 
+#### Notes
 docker build -t joostlaan/meteord:base ./base
-docker build -t joostlaan/meteord:onbuild ./onbuild 
+docker build -t joostlaan/meteord:onbuild ./onbuild &&
+docker build -t joostlaan/meteord:devbuild ./devbuild &&
+docker build -t joostlaan/meteord:binbuild ./binbuild
 
-
+docker push joostlaan/meteord:base
 
 
 
