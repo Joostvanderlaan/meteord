@@ -1,3 +1,5 @@
+[![Circle CI](https://circleci.com/gh/Joostvanderlaan/meteord.svg?style=svg)](https://circleci.com/gh/Joostvanderlaan/meteord)
+
 #### Changes by Joost
 - add VULCANIZE=True env to meteor build of the base image script for building Meteor with Vulcanize
 
@@ -5,14 +7,21 @@
 docker build -t joostlaan/meteord:base ./base
 docker build -t joostlaan/meteord:onbuild ./onbuild &&
 docker build -t joostlaan/meteord:devbuild ./devbuild &&
-docker build -t joostlaan/meteord:binbuild ./binbuild
+docker build -t joostlaan/meteord:binbuild ./binbuild &&
+docker build -t joostlaan/meteord:testbuild ./testbuild &&
+docker build -t joostlaan/meteord:distbuild ./distbuild
 
-docker push joostlaan/meteord:base
+docker push joostlaan/meteord:base &&
+docker push joostlaan/meteord:onbuild &&
+docker push joostlaan/meteord:devbuild &&
+docker push joostlaan/meteord:binbuild &&
+docker push joostlaan/meteord:testbuild &&
+docker push joostlaan/meteord:distbuild
 
 
 
 
-[![Circle CI](https://circleci.com/gh/meteorhacks/meteord/tree/master.svg?style=svg)](https://circleci.com/gh/meteorhacks/meteord/tree/master)
+
 ## MeteorD - Docker Runtime for Meteor Apps
 
 There are two main ways you can use Docker with Meteor apps. They are:
@@ -26,12 +35,12 @@ There are two main ways you can use Docker with Meteor apps. They are:
 
 With this method, your app will be converted into a Docker image. Then you can simply run that image.  
 
-For that, you can use `meteorhacks/meteord:onbuild` as your base image. Magically, that's only you've to do. Here's how to do it.
+For that, you can use `joostlaan/meteord:onbuild` as your base image. Magically, that's only you've to do. Here's how to do it.
 
 Add following `Dockerfile` into the root of your app:
 
 ~~~shell
-FROM meteorhacks/meteord:onbuild
+FROM joostlaan/meteord:onbuild
 ~~~
 
 Then you can build the docker image with:
@@ -54,9 +63,9 @@ Then you can access your app from the port 8080 of the host system.
 
 #### Stop downloading Meteor each and every time (mostly in development)
 
-So, with the above method, MeteorD will download and install Meteor each and every time. That's bad specially in development. So, we've a solution for that. Simply use `meteorhacks/meteord:devbuild` as your base image.
+So, with the above method, MeteorD will download and install Meteor each and every time. That's bad specially in development. So, we've a solution for that. Simply use `joostlaan/meteord:devbuild` as your base image.
 
-> WARNING: Don't use `meteorhacks/meteord:devbuild` for your final build. If you used it, your image will carry the Meteor distribution as well. As a result of that, you'll end up with an image with ~700 MB.
+> WARNING: Don't use `joostlaan/meteord:devbuild` for your final build. If you used it, your image will carry the Meteor distribution as well. As a result of that, you'll end up with an image with ~700 MB.
 
 ### 2. Running a Meteor bundle with Docker
 
@@ -71,7 +80,7 @@ docker run -d \
     -e MONGO_OPLOG_URL=mongodb://oplog_url \
     -v /mybundle_dir:/bundle \
     -p 8080:80 \
-    meteorhacks/meteord:base
+    joostlaan/meteord:base
 ~~~
 
 With this method, MeteorD looks for the tarball version of the meteor bundle. So, you should build the meteor bundle for `os.linux.x86_64` and put it inside the `/bundle` volume. This is how you can build a meteor bundle.
@@ -91,7 +100,7 @@ docker run -d \
     -e MONGO_OPLOG_URL=mongodb://oplog_url \
     -e BUNDLE_URL=http://mybundle_url_at_s3.tar.gz \
     -p 8080:80 \
-    meteorhacks/meteord:base
+    joostlaan/meteord:base
 ~~~
 
 
@@ -107,7 +116,7 @@ docker run -d \
     -e BUNDLE_URL=http://mybundle_url_at_s3.tar.gz \
     -e REBULD_NPM_MODULES=1 \
     -p 8080:80 \
-    meteorhacks/meteord:binbuild
+    joostlaan/meteord:binbuild
 ~~~
 
 ## Known Issues
