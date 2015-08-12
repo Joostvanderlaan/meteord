@@ -1,5 +1,13 @@
 [![Circle CI](https://circleci.com/gh/Joostvanderlaan/meteord.svg?style=svg)](https://circleci.com/gh/Joostvanderlaan/meteord)
 
+[![base](https://badge.imagelayers.io/joostlaan/meteord:base.svg)](https://imagelayers.io/?images=joostlaan/meteord:base 'Get your own badge on imagelayers.io')
+[![binbuild](https://badge.imagelayers.io/joostlaan/meteord:binbuild.svg)](https://imagelayers.io/?images=joostlaan/meteord:binbuild 'Get your own badge on imagelayers.io')
+[![devbuild](https://badge.imagelayers.io/joostlaan/meteord:devbuild.svg)](https://imagelayers.io/?images=joostlaan/meteord:devbuild 'Get your own badge on imagelayers.io')
+[![distbuild](https://badge.imagelayers.io/joostlaan/meteord:distbuild.svg)](https://imagelayers.io/?images=joostlaan/meteord:distbuild 'Get your own badge on imagelayers.io')
+[![onbuild](https://badge.imagelayers.io/joostlaan/meteord:onbuild.svg)](https://imagelayers.io/?images=joostlaan/meteord:onbuild 'Get your own badge on imagelayers.io')
+[![testbuild](https://badge.imagelayers.io/joostlaan/meteord:testbuild.svg)](https://imagelayers.io/?images=joostlaan/meteord:testbuild 'Get your own badge on imagelayers.io')
+
+
 #### Changes by Joost
 - add VULCANIZE=True env to meteor build of the base image script for building Meteor with Vulcanize
 
