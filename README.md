@@ -9,7 +9,6 @@ testbuild[![testbuild](https://badge.imagelayers.io/joostlaan/meteord:testbuild.
 
 
 #### Changes by Joost
-- add VULCANIZE=True env to meteor build of the base image script for building Meteor with Vulcanize
 
 #### Notes
 docker build -t joostlaan/meteord:base ./base
